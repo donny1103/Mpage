@@ -51,7 +51,7 @@ export default (props) => {
                             justify-content: center;
                             background: rgb(0, 0, 0, 0.5);
                             overflow: auto;
-                            z-index: 999;
+                            z-index: 1000;
                             position: fixed;
                         }
                         :global(.modal__close) {
@@ -65,7 +65,7 @@ export default (props) => {
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
-                            z-index: 1000;
+                            z-index: 1001;
                             position: relative;
                             background: var(--beige);
                             overflow: auto;

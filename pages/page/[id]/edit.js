@@ -27,7 +27,7 @@ const PageEdit = (props) => {
     };
 
     return (
-        <Layout user={router.user}>
+        <Layout>
             <Page page={page} handleSubmit={handleSubmit} />
         </Layout>
     );

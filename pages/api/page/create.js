@@ -3,10 +3,12 @@ import Page from "../../../models/Page";
 import Media from "../../../models/Media";
 import { authenticate } from "../../../middleware/authenticate";
 
-export default authenticate(async (req, res, user) => {
+export default authenticate(async (req, res) => {
     if (req.method !== "POST") {
         res.status(405).end();
     }
+
+    const { userId } = req.query;
 
     connectToDatabase();
 
@@ -17,7 +19,7 @@ export default authenticate(async (req, res, user) => {
     for (let m of media) {
         mediaIds.push(
             await Media.create({
-                userId: user._id,
+                userId,
                 type: m.type,
                 src: m.src,
             })
@@ -25,7 +27,7 @@ export default authenticate(async (req, res, user) => {
     }
 
     const page = new Page({
-        userId: user._id,
+        userId,
         title: req.body.title || "",
         body: req.body.body || "",
         media: mediaIds,

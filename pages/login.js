@@ -9,10 +9,12 @@ export default () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => setErrors({}), [email, password]);
 
     const handleSubmit = async () => {
+        setLoading(true);
         const payload = { email, password };
 
         const { hasError, erros } = validateFields(payload);
@@ -36,6 +38,7 @@ export default () => {
                 password: "The username and password do not match.",
             });
         }
+        setLoading(false);
     };
 
     const onKeyDown = (e) => {
@@ -81,6 +84,7 @@ export default () => {
                         marginBottom: "15%",
                     }}
                     onClick={handleSubmit}
+                    loading={loading}
                 >
                     LOGIN
                 </Button>

@@ -2,14 +2,13 @@ import React, { useRef, useState, useContext, useEffect } from "react";
 import Form, { Field, Label } from "./Form";
 import Input from "./Input";
 import Button from "./Button";
-import { UserContext } from "./Layout";
 
 export default (props) => {
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const profilePictureUrlRef = useRef(null);
     const [errors, setErrors] = useState({});
-    const user = useContext(UserContext);
+    const user = props.user;
 
     const { Content, Footer, Header, onClose } = props;
 

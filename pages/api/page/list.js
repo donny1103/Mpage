@@ -3,27 +3,28 @@ import Page from "../../../models/Page";
 import Media from "../../../models/Media";
 import { authenticate } from "../../../middleware/authenticate";
 
-export default authenticate(async (req, res, user) => {
+export default authenticate(async (req, res) => {
     if (req.method !== "GET") {
         return res.status(405).end();
     }
 
+    const { userId } = req.query;
     connectToDatabase();
 
-    const results = await Page.find({ userId: user._id });
+    const results = await Page.find({ userId }, { title: -1, media: -1, createdAt: -1 });
 
     let pages = [];
 
     for (let page of results) {
-        let media = [];
-
-        for (let m of page.media) {
-            media.push((await Media.findOne({ _id: m, userId: user._id }))?.toObject() ?? {});
-        }
+        let mediaId = page.media[0];
+        let thumnail = (await Media.findOne({ _id: mediaId, userId }))?.toObject() ?? {};
+        let pageObj = page?.toObject() ?? {};
 
         pages.push({
-            ...page.toObject(),
-            media,
+            _id: pageObj?._id,
+            title: pageObj?.title,
+            createdAt: pageObj?.createdAt,
+            thumnail,
         });
     }
     res.json(JSON.parse(JSON.stringify(pages)));

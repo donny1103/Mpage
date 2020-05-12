@@ -1,15 +1,21 @@
-import React, { createContext } from "react";
+import React from "react";
 import Sidebar from "./sidebar/";
-import useAuth from "../hooks/useAuth";
-
-export const UserContext = createContext({});
 
 export default ({ children }) => {
-    const user = useAuth();
     return (
-        <UserContext.Provider value={user}>
+        <>
             <Sidebar />
-            <main className='main'>{children}</main>
-        </UserContext.Provider>
+            <main className='main'>
+                {children}
+                <style jsx>{`
+                    .main {
+                        padding: 12px 12px 12px 212px;
+                        width: 100%;
+                        min-height: 100vh;
+                        background-color: var(--beige);
+                    }
+                `}</style>
+            </main>
+        </>
     );
 };

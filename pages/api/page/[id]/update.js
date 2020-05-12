@@ -7,11 +7,12 @@ export default authenticate(async (req, res) => {
     if (req.method !== "POST") {
         return res.status(405).end();
     }
-
+    const { userId } = req.query;
     connectToDatabase();
+
     const { media, id } = req.body;
 
-    const page = await Page.findOne({ _id: id });
+    const page = await Page.findOne({ _id: id, userId });
 
     let mediaIds = [];
     for (let m of media) {

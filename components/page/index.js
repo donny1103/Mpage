@@ -34,6 +34,7 @@ export default (props) => {
     const [mediaList, setMediaList] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const [modalOpened, setModalState] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [body, setBody] = useState("");
 
@@ -86,7 +87,8 @@ export default (props) => {
 
     const handleBodyChange = (value) => setBody(value);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        setLoading(true);
         const data = {
             title: title.current.value,
             body,
@@ -94,8 +96,9 @@ export default (props) => {
         };
 
         if (typeof props.handleSubmit === "function") {
-            props.handleSubmit(data);
+            await props.handleSubmit(data);
         }
+        setLoading(false);
     };
 
     const mediaItem = mediaList.length ? mediaList[pageNum] : "";
@@ -130,7 +133,7 @@ export default (props) => {
                         </a>
                     </Link>
 
-                    <Button className='btn btn--green' type='submit'>
+                    <Button className='btn btn--green' type='submit' loading={loading}>
                         Save
                     </Button>
                 </div>

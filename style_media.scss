@@ -5,15 +5,15 @@ $xl: 1600px;
 
 @media screen and (max-width: $sm) {
     .main {
-        padding: 0;
-        overflow-x: hidden;
+        padding: 0 !important;
+        overflow-x: hidden !important;
     }
     .sidebar__toggle_button {
-        display: inline-block;
+        display: inline-block !important;
     }
 
     .media__gallery--open {
-        height: 50%;
+        height: 50% !important;
     }
 }
 
@@ -22,48 +22,48 @@ $xl: 1600px;
         clip-path: none !important;
     }
     .sidebar__menu-button {
-        display: none;
+        display: none !important;
     }
     .sidebar__menu-item {
         opacity: 1 !important;
     }
 
     .media__gallery {
-        display: block;
-        overflow-y: auto;
-        overflow-x: hidden;
+        display: block !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
 
     .media__gallery--open {
-        height: 100%;
+        height: 100% !important;
     }
 }
 
 @media screen and (max-width: 800px) {
     .page__list-item {
-        max-width: calc(100% - 20px);
-        flex: 0 0 calc(100% - 20px);
+        max-width: calc(100% - 20px) !important;
+        flex: 0 0 calc(100% - 20px) !important;
     }
 }
 
 @media screen and (min-width: $lg) {
     .page__list-item {
-        max-width: calc(33.33% - 20px);
-        flex: 0 0 calc(33.33% - 20px);
+        max-width: calc(33.33% - 20px) !important;
+        flex: 0 0 calc(33.33% - 20px) !important;
     }
 }
 
 @media screen and (min-width: $xl) {
     .page__list-item {
-        max-width: calc(25% - 20px);
-        flex: 0 0 calc(25% - 20px);
+        max-width: calc(25% - 20px) !important;
+        flex: 0 0 calc(25% - 20px) !important;
     }
 }
 
 @media (hover: hover) {
     .sidebar__menu-item:hover {
-        color: var(--black);
-        background-color: var(--beige);
-        outline: 0;
+        color: var(--black) !important;
+        background-color: var(--beige) !important;
+        outline: 0 !important;
     }
 }

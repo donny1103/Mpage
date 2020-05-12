@@ -2,13 +2,20 @@ import React from "react";
 
 export default (props) => (
     <>
-        <button {...props}>
-            <span className='btn__text'>{props.children}</span>
+        <button
+            className={props.className || ""}
+            type={props.type || "button"}
+            onClick={props.onClick}
+            style={props.style || {}}
+        >
+            <span className={`btn__text ${props.loading ? "btn__text--loading" : ""}`}>{props.children}</span>
+            <i className={`fas fa-spinner btn__spinner ${props.loading ? "btn__spinner--loading" : ""}`} />
         </button>
         <style jsx>
             {`
                 .btn {
                     font-size: 1rem;
+                    position: relative;
                     margin: 0;
                     padding: 5px 8px;
                     text-rendering: auto;
@@ -68,10 +75,43 @@ export default (props) => (
 
                 .btn__text {
                     position: inherit;
-                    display: block;
+                    display: inherit;
                     width: 100%;
                     height: 100%;
                     z-index: 2;
+                    transform: scale(1);
+                    opacity: 1;
+                    transition-property: opacity, transform;
+                    transition-duration: 0.5s;
+                    transition-timing-funcion: linear;
+                }
+
+                .btn__text--loading {
+                    transform: scale(1.5);
+                    opacity: 0;
+                }
+
+                .btn__spinner {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    height: 20px;
+                }
+
+                .btn__spinner--loading {
+                    display: inline !important;
+                    animation: spin 1s linear infinite;
+                    z-index: 2;
+                }
+
+                @keyframes spin {
+                    100% {
+                        transform: rotate(360deg);
+                    }
                 }
 
                 .btn--blue {
