@@ -1,9 +1,14 @@
+import useSWR from "swr";
+import getServerData from "../../services/getServerData";
 import Page from "../../components/page/index";
 import Layout from "../../components/Layout";
-import auth from "../../services/auth";
 import Router from "next/router";
 
 const PageCreate = (props) => {
+    const { data: media } = useSWR(`/api/media/list`, (route) => fetch(route).then((r) => r.ok && r.json()), {
+        initialData: props.media,
+    });
+
     const handleSubmit = async (data) => {
         const page = await fetch("/api/page/create", {
             method: "POST",
@@ -22,15 +27,14 @@ const PageCreate = (props) => {
 
     return (
         <Layout>
-            <Page handleSubmit={handleSubmit} />
+            <Page handleSubmit={handleSubmit} {...media} />
         </Layout>
     );
 };
 
 export async function getServerSideProps(ctx) {
-    await auth(ctx);
     return {
-        props: {},
+        props: { media: await getServerData(ctx, "/api/media/list") },
     };
 }
 

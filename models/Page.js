@@ -9,7 +9,7 @@ const Page =
         media: [Mongoose.Schema.Types.ObjectId],
         createdAt: Date,
         updatedAt: Date,
-        deletedAt: Date,
+        deletedAt: { type: Date, default: null },
     });
 
 export default Page;

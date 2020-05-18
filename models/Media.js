@@ -6,7 +6,9 @@ const Media =
         userId: Mongoose.Schema.Types.ObjectId,
         type: String,
         src: String,
-        //todo: add user id
+        createdAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: null },
+        deletedAt: { type: Date, default: null },
     });
 
 export default Media;

@@ -120,6 +120,79 @@ function PageView(props) {
             <div className='view__title'>{page.title}</div>
 
             <div className='view__body' dangerouslySetInnerHTML={{ __html: page.body }} />
+            <style jsx>{`
+                .page {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background-color: var(--foreground);
+                    display: block !important;
+                    padding: 20px;
+                }
+
+                .page__top-buttons {
+                    background: #fff;
+                    height: 64px;
+                    padding: 8px 16px;
+                    margin-bottom: 20px;
+                    width: 100%;
+                    z-index: 1;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    max-width: var(--main-width);
+                }
+
+                .media {
+                    min-height: 350px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #ffffff;
+                    flex-direction: column;
+                    position: relative;
+                    z-index: 0;
+                }
+
+                .media__slide-show {
+                    position: absolute;
+                    max-height: 100%;
+                    max-width: 100%;
+                    width: auto;
+                    height: auto;
+                }
+
+                .media__control {
+                    position: absolute;
+                    font-size: 3rem;
+                    color: var(--black);
+                    z-index: 1;
+                }
+
+                .media__control--prev {
+                    left: 0;
+                }
+
+                .media__control--next {
+                    right: 0;
+                }
+
+                .view__title {
+                    padding: 8px 16px;
+                    height: 48px;
+                    font-size: 20px !important;
+                    font-weight: 600 !important;
+                    line-height: 48px;
+                }
+
+                .view__body {
+                    padding: 10px;
+                    min-height: 100px;
+                    resize: none;
+                    font-size: 16px !important;
+                    line-height: 1.4;
+                    margin-top: 30px;
+                }
+            `}</style>
         </div>
     );
 }

@@ -11,7 +11,7 @@ export default authenticate(async (req, res) => {
     const { userId } = req.query;
     connectToDatabase();
 
-    const results = await Page.find({ userId }, { title: -1, media: -1, createdAt: -1 });
+    const results = await Page.find({ userId, deletedAt: { $eq: null } }, { title: -1, media: -1, createdAt: -1 });
 
     let pages = [];
 

@@ -23,6 +23,7 @@ export default authenticate(async (req, res) => {
                 await Media.create({
                     type: m.type,
                     src: m.src,
+                    userId,
                 })
             );
         }

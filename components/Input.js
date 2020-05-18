@@ -4,7 +4,13 @@ export default forwardRef((props, ref) => {
     const borderColor = props.borderColor || "--gold";
     return (
         <div className='input-group__field'>
-            <input {...props} className={`input-group__input ${props.className || ""}`} ref={ref} />
+            <input
+                type={props.type || "text"}
+                style={props.style || {}}
+                placeholder={props.placeholder || ""}
+                className={`input-group__input ${props.className || ""}`}
+                ref={ref}
+            />
             {!props.noAnimation && <span className='input-group__focus' />}
 
             <style jsx>{`

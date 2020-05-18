@@ -7,12 +7,10 @@ import Button from "../../components/Button";
 import Card from "../../components/page/Card";
 import Layout from "../../components/Layout";
 import getServerData from "../../services/getServerData";
-import Notification from "../../components/Notification";
-import { GlobalContext } from "../../components/GlobalProvider";
+import useAuth from "../../hooks/useAuth";
 
 function Pages(props) {
-    const { user } = React.useContext(GlobalContext);
-
+    const user = useAuth(props.user);
     const { data: pages } = useSWR(
         "/api/page/list",
         (route) =>
@@ -28,13 +26,9 @@ function Pages(props) {
         }
     );
 
-    const [open, setO] = React.useState(false);
     return (
-        <Layout>
+        <Layout user={user}>
             <div className='page__create'>
-                <Button className='btn btn--blue' onClick={() => setO(!open)}>
-                    test
-                </Button>
                 <Button className='btn btn--blue'>
                     <Link href={`/page/create`}>
                         <a>New Page</a>
@@ -52,11 +46,6 @@ function Pages(props) {
                         </Link>
                     ))}
             </ul>
-            <Notification open={open}>
-                <span style={{ color: "var(--green)" }}>
-                    <i className='fas fa-check' /> Saved
-                </span>
-            </Notification>
             <style jsx>{`
                 .page__create {
                     display: flex;
@@ -91,7 +80,7 @@ export async function getServerSideProps(ctx) {
     return {
         props: {
             pages: await getServerData(ctx, "/api/page/list"),
-            user,
+            user: await getServerData(ctx, "/api/user"),
         },
     };
 }

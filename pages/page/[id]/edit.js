@@ -1,15 +1,24 @@
+import React, { useContext } from "react";
 import Page from "../../../components/page/index";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
 import Layout from "../../../components/Layout";
 import getServerData from "../../../services/getServerData";
+import useAuth from "../../../hooks/useAuth";
+import { GlobalContext } from "../../../components/GlobalProvider";
 
 const PageEdit = (props) => {
-    const router = useRouter();
-    const pageId = router.query.id;
+    const user = useAuth(props.user);
+    const pageId = props.page._id;
+    const { pushNotification } = useContext(GlobalContext);
 
     const { data: page } = useSWR(`/api/page/${pageId}`, (route) => fetch(route).then((r) => r.ok && r.json()), {
         initialData: props.page,
+    });
+
+    const {
+        data: { photos, vidoes },
+    } = useSWR(`/api/media/list`, (route) => fetch(route).then((r) => r.ok && r.json()), {
+        initialData: props.media,
     });
 
     const handleSubmit = async (data) => {
@@ -22,13 +31,19 @@ const PageEdit = (props) => {
         });
 
         if (page.ok) {
-            await mutate(`/api/page/${router.query.id}`, page.json());
+            mutate(`/api/page/${pageId}`, data);
+
+            pushNotification(
+                <span style={{ color: "var(--green)" }}>
+                    <i className='fas fa-check' /> Saved
+                </span>
+            );
         }
     };
 
     return (
-        <Layout>
-            <Page page={page} handleSubmit={handleSubmit} />
+        <Layout user={user}>
+            <Page page={page} photos={photos} vidoes={vidoes} handleSubmit={handleSubmit} />
         </Layout>
     );
 };
@@ -37,6 +52,8 @@ export async function getServerSideProps(ctx) {
     return {
         props: {
             page: await getServerData(ctx, `/api/page/${ctx.query.id}/edit`),
+            user: await getServerData(ctx, "/api/user"),
+            media: await getServerData(ctx, "/api/media/list"),
         },
     };
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import Sidebar from "./sidebar/";
 
-export default ({ children }) => {
+export default ({ children, user }) => {
     return (
         <>
-            <Sidebar />
+            <Sidebar user={user} />
             <main className='main'>
                 {children}
                 <style jsx>{`

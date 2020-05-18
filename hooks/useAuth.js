@@ -14,7 +14,7 @@ export default function useAuth(initialData) {
                 logout();
             }
         },
-        { initialData }
+        { initialData, refreshInterval: 0 }
     );
 
     return {

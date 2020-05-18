@@ -10,6 +10,7 @@ export const authenticate = (fn) => async (req, res) => {
             res.status(401).json({ message: "Unauthorized" });
         }
     } catch (e) {
-        res.status(401).json({ message: "Unauthorized" });
+        console.log(e);
+        res.status(500).end();
     }
 };

@@ -17,7 +17,7 @@ export default async (req, res) => {
     let media = [];
 
     for (let m of page.media) {
-        media.push((await Media.findOne({ _id: m }))?.toObject() ?? {});
+        media.push((await Media.findOne({ _id: m }, { _id: -1, type: -1, src: -1 }))?.toObject() ?? {});
     }
     const data = { ...page.toObject(), media };
     delete data.userId;

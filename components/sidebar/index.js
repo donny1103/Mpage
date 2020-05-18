@@ -5,7 +5,6 @@ import Menu from "./Menu";
 import ToggleButton from "./ToggleButton";
 import Dropdown from "../Dropdown";
 import Modal from "../Modal";
-import { GlobalContext } from "../GlobalProvider";
 import ProfileSetting from "../ProfileSetting";
 
 const sidebar = {
@@ -28,8 +27,7 @@ const sidebar = {
     },
 };
 
-function Sidebar() {
-    const { user } = useContext(GlobalContext);
+function Sidebar({ user }) {
     const { pathname } = useRouter();
     const [isOpen, toggleOpen] = useCycle(false, true);
     const [profileOpen, setProfileOpen] = useState(false);
