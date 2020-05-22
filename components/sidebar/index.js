@@ -1,8 +1,7 @@
-import React, { useRef, useState, useContext } from "react";
-import { useRouter } from "next/router";
+import React, { useRef, useState } from "react";
 import { motion, useCycle } from "framer-motion";
 import Menu from "./Menu";
-import ToggleButton from "./ToggleButton";
+import HamBurgerButton from "./HamBurgerButton";
 import Dropdown from "../Dropdown";
 import Modal from "../Modal";
 import ProfileSetting from "../ProfileSetting";
@@ -28,7 +27,6 @@ const sidebar = {
 };
 
 function Sidebar({ user }) {
-    const { pathname } = useRouter();
     const [isOpen, toggleOpen] = useCycle(false, true);
     const [profileOpen, setProfileOpen] = useState(false);
 
@@ -44,9 +42,9 @@ function Sidebar({ user }) {
             custom={height}
             ref={ref}
         >
-            <ToggleButton onClick={() => toggleOpen()} />
+            <HamBurgerButton onClick={() => toggleOpen()} />
             <div className='sidebar__account'>
-                {user?.profilePictureUrl && (
+                {user.profilePictureUrl && (
                     <div className='sidebar__profile'>
                         <img src={user.profilePictureUrl} alt='img' className='sidebar__profile-picture' />
                     </div>
@@ -75,7 +73,7 @@ function Sidebar({ user }) {
                     </div>
                 )}
             </div>
-            <Menu pathname={pathname} />
+            <Menu />
             <Modal open={profileOpen} onClose={() => setProfileOpen(false)}>
                 {(props) => <ProfileSetting {...props} user={user} />}
             </Modal>
@@ -147,7 +145,6 @@ function Sidebar({ user }) {
 
                 :global(.sidebar__menu-item) {
                     color: var(--beige);
-                    padding-left: 10%;
                 }
 
                 :global(.sidebar__link) {
@@ -160,7 +157,7 @@ function Sidebar({ user }) {
                     width: 100%;
                 }
 
-                :global(.sidebar__menu-item--active) {
+                :global(.sidebar__link--active) {
                     font-weight: 700;
                     color: #ffffff;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);

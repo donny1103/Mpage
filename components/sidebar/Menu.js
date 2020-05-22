@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import MenuItem from "./MenuItem";
 import Modal from "../Modal";
 import Button from "../Button";
+import ActiveLink from "../ActiveLink";
 import ProfileSetting from "../ProfileSetting";
 
 const variants = {
@@ -15,24 +16,24 @@ const variants = {
     },
 };
 
-export default ({ pathname }) => {
+export default () => {
     const [profileOpen, setProfileOpen] = useState(false);
     return (
         <motion.ul variants={variants} className='sidebar__menu'>
-            <MenuItem active={pathname.indexOf("/page") > -1}>
-                <Link href={`/page`}>
+            <MenuItem>
+                <ActiveLink href='/page' activeClassName='sidebar__link--active'>
                     <a className='sidebar__link'>Page</a>
-                </Link>
+                </ActiveLink>
             </MenuItem>
-            <MenuItem active={pathname.indexOf("/message") > -1}>
-                <Link href={`/message`}>
+            <MenuItem>
+                <ActiveLink href='/message' activeClassName='sidebar__link--active'>
                     <a className='sidebar__link'>Message</a>
-                </Link>
+                </ActiveLink>
             </MenuItem>
-            <MenuItem active={pathname.indexOf("/contact") > -1}>
-                <Link href={`/contact`}>
+            <MenuItem>
+                <ActiveLink href='/contact' activeClassName='sidebar__link--active'>
                     <a className='sidebar__link'>Contact</a>
-                </Link>
+                </ActiveLink>
             </MenuItem>
             <MenuItem>
                 <Button className='sidebar__link btn--link' onClick={() => setProfileOpen(true)}>
