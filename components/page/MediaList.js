@@ -12,20 +12,54 @@ export default (props) => {
     return (
         props.list && (
             <>
-                <span className='sort-hint'>Hold down 3 seconds to enable sort</span>
-                <SortableList axis='xy' onSortEnd={onSortEnd} onSortStart={onSortStart} pressDelay={300}>
+                <SortableList
+                    axis='xy'
+                    onSortEnd={onSortEnd}
+                    onSortStart={onSortStart}
+                    pressDelay={300}
+                >
                     {(SortableItem) => (
                         <ul className='media__list'>
-                            {props.list.map(({ _id, src }, index) => (
-                                <SortableItem index={index} key={`media-${index}`}>
-                                    <li className={`media__item ${isDragging ? "media__item--dragging" : ""}`}>
-                                        <figure className='media__image' style={{ backgroundImage: `url('${src}')` }} />
-                                        <div className='media__item-delete' title='delete'>
-                                            <i className='fas fa-times' onClick={() => props.handleDelete(_id)} />
-                                        </div>
-                                    </li>
-                                </SortableItem>
-                            ))}
+                            {props.list.map(({ _id, src }, index) => {
+                                const isSelected = props.toolSelectedMedia.list.includes(_id);
+                                return (
+                                    <SortableItem index={index} key={`media-${index}`}>
+                                        <li
+                                            className={`media__item ${
+                                                isDragging ? "media__item--dragging" : ""
+                                            }`}
+                                            onClick={() => props.toolSelectedMedia.toggle(_id)}
+                                        >
+                                            <figure
+                                                className='media__image'
+                                                style={{ backgroundImage: `url('${src}')` }}
+                                            />
+                                            {props.isEditing && (
+                                                <>
+                                                    <span
+                                                        className='media__item-delete'
+                                                        title='delete'
+                                                    >
+                                                        <i
+                                                            className='fas fa-times'
+                                                            onClick={() => props.handleDelete(_id)}
+                                                        />
+                                                    </span>
+                                                    <span className='media__item-select'>
+                                                        <i
+                                                            className={
+                                                                isSelected
+                                                                    ? "far fa-circle"
+                                                                    : "fas fa-circle"
+                                                            }
+                                                        />
+                                                    </span>
+                                                </>
+                                            )}
+                                        </li>
+                                    </SortableItem>
+                                );
+                            })}
                         </ul>
                     )}
                 </SortableList>
@@ -34,12 +68,11 @@ export default (props) => {
                     .media__list {
                         display: flex;
                         flex-wrap: wrap;
-                        padding: 10px;
                     }
 
                     .media__item {
-                        max-width: calc(50%);
-                        flex: 0 0 calc(50%);
+                        max-width: 50%;
+                        flex: 0 0 50%;
                         padding: 10px;
                         background-color: white;
                         border-radius: 5px;
@@ -63,6 +96,20 @@ export default (props) => {
                         cursor: e-resize !important;
                     }
 
+                    .media__item-select {
+                        position: absolute;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        left: 2px;
+                        top: 2px;
+                        color: #ffffff;
+                        background-color: var(--green);
+                        border-radius: 50%;
+                        height: 25px;
+                        width: 25px;
+                    }
+
                     .media__item-delete {
                         position: absolute;
                         display: flex;
@@ -75,14 +122,6 @@ export default (props) => {
                         border-radius: 50%;
                         height: 25px;
                         width: 25px;
-                    }
-
-                    .sort-hint {
-                        text-align: center;
-                        display: block;
-                        margin: 10px;
-                        color: var(--grey);
-                        font-size: 15px;
                     }
                 `}</style>
             </>

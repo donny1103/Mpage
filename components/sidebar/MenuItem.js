@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export default ({ children }) => {
+export default ({ children, ...props }) => {
     return (
         <motion.li
             variants={{
@@ -22,7 +22,7 @@ export default ({ children }) => {
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className='sidebar__menu-item'
+            className={`sidebar__menu-item ${props?.className}`}
         >
             {children}
         </motion.li>

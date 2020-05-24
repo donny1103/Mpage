@@ -11,9 +11,13 @@ const PageEdit = (props) => {
     const pageId = props.page._id;
     const { pushNotification } = useContext(GlobalContext);
 
-    const { data: page } = useSWR(`/api/page/${pageId}`, (route) => fetch(route).then((r) => r.ok && r.json()), {
-        initialData: props.page,
-    });
+    const { data: page } = useSWR(
+        `/api/page/${pageId}`,
+        (route) => fetch(route).then((r) => r.ok && r.json()),
+        {
+            initialData: props.page,
+        }
+    );
 
     const {
         data: { photos, vidoes },

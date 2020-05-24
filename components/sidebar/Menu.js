@@ -16,10 +16,10 @@ const variants = {
     },
 };
 
-export default () => {
+export default ({ handleLogout, ...props }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     return (
-        <motion.ul variants={variants} className='sidebar__menu'>
+        <motion.ul variants={{ variants }} className='sidebar__menu'>
             <MenuItem>
                 <ActiveLink href='/page' activeClassName='sidebar__link--active'>
                     <a className='sidebar__link'>Page</a>
@@ -36,13 +36,25 @@ export default () => {
                 </ActiveLink>
             </MenuItem>
             <MenuItem>
-                <Button className='sidebar__link btn--link' onClick={() => setProfileOpen(true)}>
-                    Profile
+                <ActiveLink href='/profile' activeClassName='sidebar__link--active'>
+                    <a className='sidebar__link'>Profile</a>
+                </ActiveLink>
+            </MenuItem>
+            <MenuItem className='sidebar__logout'>
+                <Button className='sidebar__link btn--link' onClick={handleLogout}>
+                    Log out
                 </Button>
             </MenuItem>
             <Modal open={profileOpen} onClose={() => setProfileOpen(false)}>
                 {(props) => <ProfileSetting {...props} />}
             </Modal>
+            <style jsx>{`
+                :global(.sidebar__logout) {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                }
+            `}</style>
         </motion.ul>
     );
 };

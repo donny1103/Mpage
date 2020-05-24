@@ -1,10 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useCycle } from "framer-motion";
 import Menu from "./Menu";
 import HamBurgerButton from "./HamBurgerButton";
-import Dropdown from "../Dropdown";
-import Modal from "../Modal";
-import ProfileSetting from "../ProfileSetting";
 
 const sidebar = {
     open: (height = 1000) => ({
@@ -28,7 +25,6 @@ const sidebar = {
 
 function Sidebar({ user }) {
     const [isOpen, toggleOpen] = useCycle(false, true);
-    const [profileOpen, setProfileOpen] = useState(false);
 
     const ref = useRef(null);
     const height = ref.current?.offsetHeight || 1000;
@@ -46,37 +42,25 @@ function Sidebar({ user }) {
             <div className='sidebar__account'>
                 {user.profilePictureUrl && (
                     <div className='sidebar__profile'>
-                        <img src={user.profilePictureUrl} alt='img' className='sidebar__profile-picture' />
+                        <img
+                            src={user.profilePictureUrl}
+                            alt='img'
+                            className='sidebar__profile-picture'
+                        />
                     </div>
                 )}
                 {user && (
                     <div className='sidebar__profile-name'>
                         {user.name ? user.name : user.email}
-                        <Dropdown className='sidebar__setting-trigger'>
-                            {({ Ul, Li, setOpen }) => (
-                                <>
-                                    <i className='fas fa-chevron-down ' onClick={() => setOpen(true)} />
-                                    <Ul>
-                                        <Li onClick={() => setProfileOpen(true)}>My Profile</Li>
-                                        <Li
-                                            onClick={() => {
-                                                user?.logout();
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            Log out
-                                        </Li>
-                                    </Ul>
-                                </>
-                            )}
-                        </Dropdown>
                     </div>
                 )}
             </div>
-            <Menu />
-            <Modal open={profileOpen} onClose={() => setProfileOpen(false)}>
-                {(props) => <ProfileSetting {...props} user={user} />}
-            </Modal>
+            <Menu
+                handleLogout={() => {
+                    user?.logout();
+                    setOpen(false);
+                }}
+            />
             <style jsx>{`
                 :global(.sidebar) {
                     top: 0;
@@ -137,10 +121,13 @@ function Sidebar({ user }) {
                 }
 
                 :global(.sidebar__menu) {
-                    padding: 0;
+                    position: relative;
+                    padding: 0px 0 48px 0;
                     margin: 0;
                     z-index: 1;
                     flex: 1 0 0;
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 :global(.sidebar__menu-item) {
@@ -152,7 +139,7 @@ function Sidebar({ user }) {
                     font-size: 15px;
                     display: block;
                     color: inherit;
-                    padding: 8px 8px 8px 16px;
+                    padding: 8px 8px 8px 20px;
                     text-decoration: none;
                     width: 100%;
                 }

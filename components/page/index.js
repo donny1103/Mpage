@@ -5,7 +5,6 @@ import { mutate } from "swr";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Modal from "../../components/Modal";
-import Upload from "../../components/Upload";
 import Form from "../../components/Form";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -15,18 +14,16 @@ import MediaList from "./MediaList";
 
 const variants = {
     enter: (direction) => ({
-        x: direction < 0 ? 50 : -50,
-        opacity: 0,
+        // x: direction < 0 ? 150 : -150,
+        opacity: 1,
     }),
     center: {
-        zIndex: 1,
-        x: 0,
+        // x: 0,
         opacity: 1,
     },
     exit: (direction) => ({
-        zIndex: 0,
-        x: direction < 0 ? 50 : -50,
-        opacity: 0,
+        // x: direction < 0 ? 150 : -150,
+        opacity: 1,
     }),
 };
 
@@ -63,7 +60,8 @@ export default (props) => {
 
     const paginate = (newDirection) => {
         const nextPage = pageNum + newDirection;
-        const newPage = nextPage > mediaList.length - 1 ? 0 : nextPage < 0 ? mediaList.length - 1 : nextPage;
+        const newPage =
+            nextPage > mediaList.length - 1 ? 0 : nextPage < 0 ? mediaList.length - 1 : nextPage;
         setPage([newPage, newDirection]);
     };
 
@@ -208,7 +206,7 @@ export default (props) => {
                     </div>
                 </div>
 
-                <div className='media' ref={videoRef}>
+                <div className='page__slide' ref={videoRef}>
                     {Boolean(mediaList.length) ? (
                         <>
                             <AnimatePresence initial={false} custom={direction}>
@@ -223,21 +221,21 @@ export default (props) => {
                                     />
                                 )}
                                 {mediaItem.type === "image" && (
-                                    <div className='meida__slide'>
+                                    <div className='page__slide-media'>
                                         <motion.figure
                                             {...motionProps}
-                                            className='media__image'
+                                            className='page__slide-image'
                                             style={{ backgroundImage: `url(${mediaItem.src})` }}
                                         />
                                     </div>
                                 )}
                             </AnimatePresence>
                             <i
-                                className='fas fa-chevron-left  media__control media__control--prev'
+                                className='fas fa-chevron-left  page__slide-control page__slide-control--prev'
                                 onClick={() => paginate(-1)}
                             />
                             <i
-                                className='fas fa-chevron-right media__control media__control--next'
+                                className='fas fa-chevron-right page__slide-control page__slide-control--next'
                                 onClick={() => paginate(1)}
                             />
                         </>
@@ -249,7 +247,12 @@ export default (props) => {
                 </div>
 
                 <Input ref={title} placeholder='Title' className='edit__title' />
-                <Editor value={body} onChange={handleBodyChange} placeholder='Body' className='edit__body' />
+                <Editor
+                    value={body}
+                    onChange={handleBodyChange}
+                    placeholder='Body'
+                    className='edit__body'
+                />
                 <Modal open={modalOpened} onClose={() => setModalState(false)}></Modal>
             </Form>
             <ToolBar
@@ -271,7 +274,15 @@ export default (props) => {
                     },
                 }}
             >
-                {(tab) => <MediaList list={tab.list} onSortEnd={onSortEnd} handleDelete={tab.handleDelete} />}
+                {(tab, isEditing, toolSelectedMedia) => (
+                    <MediaList
+                        list={tab.list}
+                        onSortEnd={onSortEnd}
+                        handleDelete={tab.handleDelete}
+                        isEditing={isEditing}
+                        toolSelectedMedia={toolSelectedMedia}
+                    />
+                )}
             </ToolBar>
 
             <style jsx>{`
@@ -300,7 +311,7 @@ export default (props) => {
                     max-width: var(--main-width);
                 }
 
-                :global(.media) {
+                :global(.page__slide) {
                     min-height: 350px;
                     display: flex;
                     justify-content: center;
@@ -320,7 +331,7 @@ export default (props) => {
                     height: auto;
                 }
 
-                :global(.media__image) {
+                :global(.page__slide-image) {
                     cursor: pointer;
                     padding-bottom: 56.25%;
                     height: 0;
@@ -331,23 +342,30 @@ export default (props) => {
                     position: relative;
                 }
 
-                .meida__slide {
+                .page__slide-media {
                     height: 100%;
                     width: 100%;
                 }
 
-                .media__control {
+                .page__slide-control {
                     position: absolute;
-                    font-size: 3rem;
+                    font-size: 2rem;
                     color: var(--black);
                     z-index: 1;
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    background-color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
-                .media__control--prev {
-                    left: 0;
+                .page__slide-control--prev {
+                    left: 5px;
                 }
 
-                .media__control--next {
-                    right: 0;
+                .page__slide-control--next {
+                    right: 5px;
                 }
 
                 .media__gallery {

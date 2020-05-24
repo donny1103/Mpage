@@ -53,3 +53,7 @@ export const Label = ({ children }) => (
         `}</style>
     </label>
 );
+
+export const Input = ({ name, onChange, value, type = "text", style = {} }) => (
+    <input type={type} name={name} onChange={onChange} value={value} style={style} />
+);

@@ -1,19 +1,35 @@
 import React, { forwardRef } from "react";
 
-export default forwardRef((props, ref) => {
-    const borderColor = props.borderColor || "--gold";
-    return (
-        <div className='input-group__field'>
-            <input
-                type={props.type || "text"}
-                style={props.style || {}}
-                placeholder={props.placeholder || ""}
-                className={`input-group__input ${props.className || ""}`}
-                ref={ref}
-            />
-            {!props.noAnimation && <span className='input-group__focus' />}
+export default forwardRef(
+    (
+        {
+            type = "text",
+            name,
+            value,
+            placeholder,
+            className = "",
+            style = {},
+            onChange = () => {},
+            ...props
+        },
+        ref
+    ) => {
+        const borderColor = props.borderColor || "--gold";
+        return (
+            <div className='input-group__field'>
+                <input
+                    type={type}
+                    style={style}
+                    placeholder={placeholder}
+                    className={`input-group__input ${className}`}
+                    ref={ref}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                />
+                {!props.noAnimation && <span className='input-group__focus' />}
 
-            <style jsx>{`
+                <style jsx>{`
                 .input-group__field {
                     position: relative;
                     width: 100%;
@@ -58,6 +74,7 @@ export default forwardRef((props, ref) => {
                     box-shadow: 0 4px 4px rgba(218, 50, 50, 0.1);
                 }
             `}</style>
-        </div>
-    );
-});
+            </div>
+        );
+    }
+);
